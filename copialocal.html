@@ -150,62 +150,118 @@
             color: #f4a418;
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8f 50%, #3a6fa5 100%);
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
+        /* Hero Slider Section */
+        .hero-slider {
             position: relative;
+            width: 100%;
+            height: 100vh;
             overflow: hidden;
         }
 
-        .hero::before {
-            content: '';
+        .slide {
             position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: radial-gradient(circle, rgba(244,164,24,0.1) 0%, transparent 70%);
-            animation: pulse 15s infinite;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
         }
 
-        @keyframes pulse {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.1) rotate(180deg); }
+        .slide.active {
+            opacity: 1;
         }
 
-        .hero h2 {
-            font-size: 52px;
-            margin-bottom: 25px;
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: zoom 10s ease-in-out infinite;
+        }
+
+        @keyframes zoom {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .slide-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.8) 0%, rgba(45, 90, 143, 0.7) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .slide-content h2 {
+            font-size: 56px;
             font-weight: 700;
-            position: relative;
-            z-index: 1;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            animation: slideInDown 1s ease-out;
         }
 
-        .hero h2 span {
+        .slide-content h2 span {
             color: #f4a418;
         }
 
-        .hero p {
-            font-size: 20px;
-            margin-bottom: 45px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            z-index: 1;
+        .slide-content p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            max-width: 800px;
             line-height: 1.6;
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+            animation: slideInUp 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .hero-buttons {
             display: flex;
             gap: 20px;
             justify-content: center;
-            position: relative;
-            z-index: 1;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
         }
 
         .btn {
@@ -248,6 +304,63 @@
             background-color: white;
             color: #1e3a5f;
             transform: translateY(-3px);
+        }
+
+        /* Slider Navigation */
+        .slider-nav {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+
+        .slider-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slider-dot.active {
+            background-color: #f4a418;
+            width: 40px;
+            border-radius: 10px;
+        }
+
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            backdrop-filter: blur(5px);
+        }
+
+        .slider-arrow:hover {
+            background-color: rgba(244, 164, 24, 0.8);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .slider-arrow.prev {
+            left: 30px;
+        }
+
+        .slider-arrow.next {
+            right: 30px;
         }
 
         /* Mission and Vision Section */
@@ -482,7 +595,6 @@
             border-radius: 25px;
         }
 
-        /* Nuevo div debajo del iframe */
         .tour-info-box {
             max-width: 1300px;
             margin: -30px auto 50px;
@@ -532,11 +644,6 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(30, 58, 95, 0.4);
             background: linear-gradient(135deg, #2d5a8f 0%, #3a6fa5 100%);
-        }
-
-        .btn-icon {
-            font-size: 18px;
-            font-weight: bold;
         }
 
         .tour-features {
@@ -977,6 +1084,33 @@
             box-shadow: 0 12px 30px rgba(244, 164, 24, 0.4);
         }
 
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Success/Error Messages */
+        .form-message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+
+        .form-message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .form-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
         /* Footer */
         footer {
             background: linear-gradient(135deg, #0d1f35 0%, #1a2f4a 100%);
@@ -1073,8 +1207,12 @@
                 grid-template-columns: 1fr;
             }
 
-            .hero h2 {
+            .slide-content h2 {
                 font-size: 36px;
+            }
+
+            .slide-content p {
+                font-size: 18px;
             }
 
             .hero-buttons {
@@ -1128,6 +1266,19 @@
                 bottom: 20px;
                 right: 20px;
             }
+
+            .slider-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .slider-arrow.prev {
+                left: 15px;
+            }
+
+            .slider-arrow.next {
+                right: 15px;
+            }
         }
     </style>
 </head>
@@ -1161,13 +1312,77 @@
         </nav>
     </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="inicio">
-        <h2><span>UEPDC</span> - Tour Virtual</h2>
-        <p>¡Ven y Verás! Formando líderes con valores cristianos, excelencia académica e innovación educativa</p>
-        <div class="hero-buttons">
-            <a href="#tour" class="btn btn-primary"><i class="fas fa-vr-cardboard"></i> Explora Nuestro Campus</a>
-            <a href="#admisiones" class="btn btn-secondary"><i class="fas fa-graduation-cap"></i> Admisiones 2025</a>
+    <!-- Hero Slider Section -->
+    <section class="hero-slider" id="inicio">
+        <div class="slide active">
+            <img src="https://scontent.fgye30-1.fna.fbcdn.net/v/t51.82787-15/590404178_18081379370034051_4266916314930008992_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=127cfc&_nc_ohc=9XbohmFFCWcQ7kNvwERohsj&_nc_oc=Adk7kbRJrqf96Z3AwMKVOI2yr0s4UvDoY6M8bQdtFL4jRXQaqzknu_JUmwe8ZeOyQMk&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=kmRtXkDmmHkvMMVBxOUG-w&oh=00_AfiC2mJ2jab5r5WvPFYti1yaiYwH8kUkG9s4ZaBbvgVzXA&oe=692CD559" alt="UEPDC Campus">
+            <div class="slide-overlay">
+                <div class="slide-content">
+                    <h2><span>UEPDC</span> - Bienvenidos</h2>
+                    <p>Formando líderes con valores cristianos y excelencia académica desde el corazón de Guayaquil</p>
+                    <div class="hero-buttons">
+                        <a href="#tour" class="btn btn-primary"><i class="fas fa-vr-cardboard"></i> Explora Nuestro Campus</a>
+                        <a href="#admisiones" class="btn btn-secondary"><i class="fas fa-graduation-cap"></i> Admisiones 2026</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <img src="https://scontent.fgye30-1.fna.fbcdn.net/v/t39.30808-6/587605653_1447856437342898_9027317586135132897_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=103&ccb=1-7&_nc_sid=127cfc&_nc_ohc=e_mXgP1jGGsQ7kNvwEyZiCp&_nc_oc=Adm1p6NFpx9GU8bBPreMBrpKfA9UYXryZ2IJ-Gi0b6Q3LruOfelH-BDnz2d5seBcpnU&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=PY7MS7iDoIdZZXNuOmMDuA&oh=00_AfiN1TzhtMXT41f_FXd8vVm6VZs_Zrb3wYsNvH9ByiL0nA&oe=692CD8A2" alt="Estudiantes UEPDC">
+            <div class="slide-overlay">
+                <div class="slide-content">
+                    <h2>Excelencia <span>Educativa</span></h2>
+                    <p>Instalaciones modernas equipadas con tecnología de vanguardia para potenciar el aprendizaje</p>
+                    <div class="hero-buttons">
+                        <a href="#mision-vision" class="btn btn-primary"><i class="fas fa-bullseye"></i> Nuestra Misión</a>
+                        <a href="#contacto" class="btn btn-secondary"><i class="fas fa-envelope"></i> Contáctanos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <img src="https://scontent.fgye30-1.fna.fbcdn.net/v/t51.82787-15/583306359_18080841980034051_1339393007107754314_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=127cfc&_nc_ohc=ZRZFwxjuPFoQ7kNvwHAb8My&_nc_oc=Adk4cG1zfptbQj8nnwe-fy7yT0qACgeUlLnfnm6tX-xqbMWcKUVep0-Et0sdWzJr7t0&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=J0wzLKFEQiAAJiYzWs8uZQ&oh=00_AfipoKadB3EzODjpVE-xAy7o4wqSgLO4w-hdMTPViPe8NQ&oe=692D024F" alt="Comunidad UEPDC">
+            <div class="slide-overlay">
+                <div class="slide-content">
+                    <h2>Comunidad <span>Misionera</span></h2>
+                    <p>Cultivamos valores cristianos y formamos ciudadanos comprometidos con la sociedad</p>
+                    <div class="hero-buttons">
+                        <a href="#informacion" class="btn btn-primary"><i class="fas fa-heart"></i> Nuestros Valores</a>
+                        <a href="#directorio" class="btn btn-secondary"><i class="fas fa-map"></i> Conoce Nuestras Instalaciones</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <img src="https://scontent.fgye30-1.fna.fbcdn.net/v/t39.30808-6/579681927_1436268501835025_6196444950163089770_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=833d8c&_nc_ohc=ACYhYYsA7igQ7kNvwH93WM9&_nc_oc=AdnCnbgftTNRvPAYq0susXn8UBGRUB0xcjXKKghh39EVBsh8AInW4UGD7uux6C9UaEg&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=MqyVskgwmaDfC2NFc6mdyg&oh=00_AfhtpgjO3nY5z2m6vTPql1ISVBhsn5jkF-WMet7ljyxhVg&oe=692CD605" alt="Infraestructura UEPDC">
+            <div class="slide-overlay">
+                <div class="slide-content">
+                    <h2>¡Ven y <span>Verás!</span></h2>
+                    <p>Descubre por qué somos la mejor opción educativa para el futuro de tus hijos</p>
+                    <div class="hero-buttons">
+                        <a href="#tour" class="btn btn-primary"><i class="fas fa-video"></i> Tour Virtual 360°</a>
+                        <a href="#admisiones" class="btn btn-secondary"><i class="fas fa-user-plus"></i> Proceso de Admisión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slider Navigation -->
+        <div class="slider-arrow prev" onclick="changeSlide(-1)">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+        <div class="slider-arrow next" onclick="changeSlide(1)">
+            <i class="fas fa-chevron-right"></i>
+        </div>
+
+        <div class="slider-nav">
+            <span class="slider-dot active" onclick="currentSlide(0)"></span>
+            <span class="slider-dot" onclick="currentSlide(1)"></span>
+            <span class="slider-dot" onclick="currentSlide(2)"></span>
+            <span class="slider-dot" onclick="currentSlide(3)"></span>
         </div>
     </section>
 
@@ -1386,8 +1601,7 @@
                 <a href="https://scontent.fgye30-1.fna.fbcdn.net/v/t39.30808-6/580530666_1438210414974167_9080051672224411123_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=108&ccb=1-7&_nc_sid=127cfc&_nc_ohc=mYnk7d_Y9QEQ7kNvwE1QTfQ&_nc_oc=AdlpHl-Honis0l18sXzvGlXa6ryqyTj_H-GIDicWrh_CwD4yxTsyNSUgdjfL7K07PmI&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=z39lSHh-TIBZLdcX-t7ByA&oh=00_AfjiqWUwgBOVGy-mRegoguCDbf8Y66-Va1cgW7nS7xwjLQ&oe=6924F8E4" target="_blank" class="btn btn-secondary"><i class="fas fa-file-download"></i> Link Prospecto</a>
             </div>
             <br>
-            <img src="https://scontent.fgye30-1.fna.fbcdn.net/v/t51.82787-15/590405261_18081433733034051_5570755850697083784_n.webp?stp=dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Lx4ZRuR9MicQ7kNvwEcUp8O&_nc_oc=AdmtXCpZ84znrr_xfrYszoWzSHb8xAVqCCRsvB8ix_B-BNCrN1UCPr_qVB1aRndCnIQ&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=TcttDQwEtdxLd7LHLav9Kg&oh=00_Afj7D5CAoGOCThrJzDf1KelIAt6OxpPnpEf2ROrJ_umQtQ&oe=692CDE38" width="800" height="800
-            ">
+            <img src="https://scontent.fgye30-1.fna.fbcdn.net/v/t51.82787-15/590405261_18081433733034051_5570755850697083784_n.webp?stp=dst-jpg_tt6&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=Lx4ZRuR9MicQ7kNvwEcUp8O&_nc_oc=AdmtXCpZ84znrr_xfrYszoWzSHb8xAVqCCRsvB8ix_B-BNCrN1UCPr_qVB1aRndCnIQ&_nc_zt=23&_nc_ht=scontent.fgye30-1.fna&_nc_gid=TcttDQwEtdxLd7LHLav9Kg&oh=00_Afj7D5CAoGOCThrJzDf1KelIAt6OxpPnpEf2ROrJ_umQtQ&oe=692CDE38" width="800" height="800" alt="Admisiones UEPDC 2026" style="width: 100%; display: block; margin: 0; border-radius: 15px;">
         </div>
     </section>
 
@@ -1435,24 +1649,27 @@
 
             <div class="contact-form">
                 <h3>Envíanos un mensaje</h3>
-                <form>
+                <div id="formMessage" class="form-message"></div>
+                <form id="contactForm">
                     <div class="form-group">
                         <label><i class="fas fa-user"></i> Nombre completo</label>
-                        <input type="text" placeholder="Juan Pérez">
+                        <input type="text" id="name" name="name" placeholder="Juan Pérez" required>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-envelope"></i> Correo electrónico</label>
-                        <input type="email" placeholder="correo@ejemplo.com">
+                        <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-phone"></i> Teléfono</label>
-                        <input type="tel" placeholder="+593 XX XXX XXXX">
+                        <input type="tel" id="phone" name="phone" placeholder="+593 XX XXX XXXX" required>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-comment-dots"></i> Mensaje</label>
-                        <textarea placeholder="Escribe tu mensaje aquí..."></textarea>
+                        <textarea id="message" name="message" placeholder="Escribe tu mensaje aquí..." required></textarea>
                     </div>
-                    <button type="submit" class="btn-submit"><i class="fas fa-paper-plane"></i> Enviar mensaje</button>
+                    <button type="submit" id="submitBtn" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Enviar mensaje
+                    </button>
                 </form>
             </div>
         </div>
@@ -1488,8 +1705,6 @@
                 <ul>
                     <li><a href="#admisiones"><i class="fas fa-graduation-cap"></i> Admisiones</a></li>
                     <li><a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a></li>
-                    <li><a href="#"><i class="fas fa-user-friends"></i> Portal para padres</a></li>
-                    <li><a href="#"><i class="fas fa-user-graduate"></i> Portal para estudiantes</a></li>
                 </ul>
             </div>
 
@@ -1516,5 +1731,6 @@
             <p>© 2025 UEPDC - Colegio. Todos los derechos reservados.</p>
         </div>
     </footer>
+
 </body>
 </html>
